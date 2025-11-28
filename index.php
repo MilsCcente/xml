@@ -9,25 +9,25 @@
                         <nombre>I</nombre>
                         <unidades_didacticas>
                             <ud1>
-                                <nombre>METODOLOGÍA DE DESARROLLO DE SOFTWARE</nombre>
+                                <nombre>FUNDAMENTOS DE PROGRAMACION</nombre>
                             </ud1>
                             <ud2>
-                                <nombre>OFIMATICA</nombre>
+                                <nombre>REDES E INTERNET</nombre>
                             </ud2>
                             <ud3>
-                                <nombre>PROGRAMACIÓN WEB</nombre>
+                                <nombre>ANALISIS Y DISEÑO DE SISTEMAS </nombre>
                             </ud3>
                             <ud4>
-                                <nombre>PROGRAMACIÓN ORIENTADA A OBJETOS</nombre>
+                                <nombre>INTRODUCCION DE BASE DE DATOS</nombre>
                             </ud4>
                             <ud5>
-                                <nombre>ARQUITECTURA DE SERVIDORES WEB</nombre>
+                                <nombre>ARQUITECTURA DE COMPUTADORAS</nombre>
                             </ud5>
                             <ud6>
-                                <nombre>TALLER DE BASE DE DATOS</nombre>
+                                <nombre>COMUNICACION ORAL</nombre>
                             </ud6>
                             <ud7>
-                                <nombre>APLICACIONES SISTEMATIZADAS</nombre>
+                                <nombre>APLICACIONES EN INTERNET</nombre>
                             </ud7>
 
                         </unidades_didacticas>
