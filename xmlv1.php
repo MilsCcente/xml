@@ -1,7 +1,8 @@
 <?php
-$ies = [];
 
+use Dom\Document;
 
+$IES = [];
 $udp1 = [
     'FUNDAMENTOS DE PROGRAMACIÓN',
     'REDES E INTERNET',
@@ -51,42 +52,38 @@ $udp6 = [
     'COMERCIO ELECTRÓNICO',
     'PLAN DE NEGOCIOS',
 ];
-
 // =================PERIODOS===================
 
-//  PERIODO 1  
+//  PERIODO 1  (I)
 $p1 = [];
 $p1['nombre'] = "I";
 $p1['unidades_didacticas'] = $udp1;
 
-//  PERIODO 2  
+//  PERIODO 2  (II)
 $p2 = [];
 $p2['nombre'] = "II";
 $p2['unidades_didacticas'] = $udp2;
-//  PERIODO 3  
+//  PERIODO 3  (III)
 $p3 = [];
 $p3['nombre'] = "III";
 $p3['unidades_didacticas'] = $udp3;
 
-//  PERIODO 4 
+//  PERIODO 4  (IV)
 $p4 = [];
 $p4['nombre'] = "IV";
 $p4['unidades_didacticas'] = $udp4;
 
-//  PERIODO 5  
+//  PERIODO 5  (V)
 $p5 = [];
 $p5['nombre'] = "V";
 $p5['unidades_didacticas'] = $udp5;
 
-//  PERIODO 6 
+//  PERIODO 6  (VI)
 $p6 = [];
 $p6['nombre'] = "VI";
 $p6['unidades_didacticas'] = $udp6;
 
-// =================MODULOS===================
-$m1 = array();
-$m1 ['nombre'] = "ANÁLISIS Y DISEÑO DE SISTEMAS WEB";
-$m1 ['periodos']= [$p1, $p2];
+// =================MODULO 1===================
 
 $m1 = array();
 $m1['nombre'] = "ANALISIS Y DISEÑO DE SISTEMAS WEB";
@@ -100,31 +97,32 @@ $m3 = array();
 $m3['nombre'] = "DISEÑO DE SERVICIOS WEB";
 $m3['periodos'] = array($p5, $p6);
 
-//------------PROGRAMAS DE ESTUDIO-------------------
 
-$pe1 =array();
-$pe1['nombre'] = "DISEÑO Y PROGRAMACION WEB";
-$pe1['modulos'] = [$m1, $m2, $m3];
+// =================PRAGRAMAS DE ESTUDIO===================
 
-$pe2 =array();
-$pe2['nombre'] = "ENFERMERÍA TÉCNICA";
-$instituto[] =  [$m1, $m2, $m3];
+$pe1= array(   );
+$pe1['nombre'] = "DISEÑO Y PRAMACIÓN WEB";
+$pe1['modulos'] = array($m1, $m2, $m3);
 
-$pe3 =array();
-$pe3['nombre'] = "MECATRÓNICA AUTOMOTRIZ";
-$instituto[] =  [$m1, $m2, $m3];
+$p2= array();
+$p2['nombre'] = "ENFERMERIA TECNICA";
+$p2['modulos'] = array();
 
-$pe4 =array();
-$pe4['nombre'] = "INDUSTRIAS DE ALIMENTOS Y BEBIDAS";
-$instituto[] =  [$m1, $m2, $m3];
+$p3= array();
+$p3['nombre'] = "INDUSTRIAS DE ALIMENTOS Y BEBIDAS";
+$p3['modulos'] = array();
 
-$pe5 =array();
-$pe5['nombre'] = "PRODUCCIÓN AGROPECUARIA";
-$instituto[] =  [$m1, $m2, $m3];
+$p4= array();
+$p4['nombre'] = "MECATRONICA AUTOMOTRIZ";
+$p4['modulos'] = array();   
 
-$ies['nombre'] = "IES Público HUANTA";
-$ies['programas_estudio'] = [$pe1, $pe2, $p3, $pe4, $pe5];
+$p5= array();
+$p5['nombre'] = "PRODUCCION AGROPECUARIA";
+$p5['modulos'] = array();
 
+
+$ies['nombre'] = "INSTITUTO EDUCATIVO DE ESTUDIOS SUPERIORES";
+$ies['programas_estudio'] = array($pe1, $p2, $p3, $p4, $p5);
 
 $xml = new DOMDocument('1.0', 'UTF-8');
 $xml->formatOutput = true;
@@ -132,20 +130,46 @@ $xml->formatOutput = true;
 $et1 = $xml->createElement('ies');
 $xml->appendChild($et1);
 
-    $nombre_ies = $xml->createElement('nombre', $ies['nombre']);
-    $programas_estudio = $xml->createElement('programas_estudio');
-    foreach($ies["programas_estudio"] as $PEs) { 
-        $cont_pe++;
-        $num_pe = $xml->createElement("pe", $cont_pe);
-        $programas_estudio= $xml->createElement('nombre', $PEs['nombre']);
-        $nombre_pe->appendChild($nombre_pe);
+$nombre_ies = $xml->createElement('nombre', $ies['nombre']);
+$programas_ies = $xml->createElement('programas_estudio');
+$et1->appendChild($nombre_ies);
+$et1->appendChild($programas_ies);
 
+foreach ($ies["programas_estudio"]as $indice => $PEs) {
+    
+    $num_pe = $xml->createElement("pe".$indice+1);
+    $nombre_pe = $xml->createElement('nombre', $PEs['nombre']);
+
+    foreach ($PEs['modulos'] as $indice_modulo => $Modulo) {
+        $num_mod = $xml->createElement("mod".$indice_modulo+1);
+        $nom_mod = $xml->createElement('nombre', $Modulo['nombre']);
+
+        foreach ($Modulo['periodos'] as $indice_periodo => $Periodo) {
+            $num_per = $xml->createElement("per".$indice_periodo+1);
+            $nom_per = $xml->createElement('nombre', $Periodo['nombre']);
+            $uds = $xml->createElement('unidades_didacticas');
+
+            foreach ($Periodo['unidades_didacticas'] as $indice_ud => $Ud) {
+                $num_ud = $xml->createElement("ud".$indice_ud+1);
+                $nom_ud = $xml->createElement('nombre', $Ud);
+                $num_ud ->appendChild($nom_ud);
+                $uds ->appendChild($num_ud);
+            }
+
+            $num_per ->appendChild($nom_per);
+            $num_per ->appendChild($uds);
+            $num_mod ->appendChild($num_per);
+        }
+        $num_mod ->appendChild($nom_mod);
+        $num_pe ->appendChild($num_mod);
+        
     }
+    $num_pe->appendChild($nombre_pe); 
+    $programas_ies->appendChild($num_pe);
+}    
 
 
 $archivo = "ies.xml";
 $xml->save($archivo);
 
-
-print_r($pe1)
-?> 
+?>
