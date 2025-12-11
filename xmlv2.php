@@ -63,7 +63,7 @@ while ($pe = mysqli_fetch_assoc($resultado)) {
                 $et_uds = $xml->createElement('unidades_didacticas');
                 $consulta_uds = "SELECT * FROM sigi_unidad_didactica WHERE id_semestre=" . $per['id'];
                 $resultado_uds = $conexion->query($consulta_uds);
-                
+
                 while ($uds = mysqli_fetch_assoc($resultado_uds)) {
                     echo "--------" . $uds['nombre'] . "<br>";
                     $num_ud = $xml->createElement('ud_' . $uds['orden']);
@@ -75,10 +75,10 @@ while ($pe = mysqli_fetch_assoc($resultado)) {
                     $num_ud->appendChild($creditos_practico);
                     $tipo = $xml->createElement('tipo', $uds['tipo']);
                     $num_ud->appendChild($tipo);
-                    $hr_semanal = ($uds['creditos_teorico']*1)+($uds['creditos_practico']*2);
+                    $hr_semanal = ($uds['creditos_teorico'] * 1) + ($uds['creditos_practico'] * 2);
                     $hr_sem = $xml->createElement('horas_semanal', $hr_semanal);
                     $num_ud->appendChild($hr_sem);
-                    $hr_semestral = $xml->createElement('horas_semestral', $hr_semanal*16);
+                    $hr_semestral = $xml->createElement('horas_semestral', $hr_semanal * 16);
                     $num_ud->appendChild($hr_semestral);
                     $et_uds->appendChild($num_ud);
                 }
@@ -97,4 +97,3 @@ while ($pe = mysqli_fetch_assoc($resultado)) {
 
 $archivo = "ies_db.xml";
 $xml->save($archivo);
-?>

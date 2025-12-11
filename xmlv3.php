@@ -14,15 +14,11 @@ foreach ($xml as $i_pe => $pe) {
         echo '--> Resolución: ' . $plan->resolucion . "<br>";
         echo '--> Fecha de registro: ' . $plan->fecha_registro . "<br>";
 
-       // $consulta = "INSERT INTO sigi_planes_estudio (nombre, resolucion, fecha_registro, id_programa_estudios) VALUES ('".$plan->nombre."', '".$plan->resolucion."', '".$plan->fecha_registro."', ".$pe['id'].")";
-        
-       foreach ($plan->modulos_formativos[0] as $id_mod => $modulo) {
+        // $consulta = "INSERT INTO sigi_planes_estudio (nombre, resolucion, fecha_registro, id_programa_estudios) VALUES ('".$plan->nombre."', '".$plan->resolucion."', '".$plan->fecha_registro."', ".$pe['id'].")";
+
+        foreach ($plan->modulos_formativos[0] as $id_mod => $modulo) {
             echo '----> Módulo: ' . $modulo->descripcion . "<br>";
             echo '----> Número de módulo: ' . $modulo->nro_modulo . "<br>";
-            
         }
-       
     }
-   
 }
-?>
