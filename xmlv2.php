@@ -1,5 +1,4 @@
 <?php
-use Dom\Document;
 $conexion = new mysqli("localhost", "root", "root", "xml");
 if ($conexion->connect_errno) {
     echo "Fallo al conectar a MySQL: (" . $conexion->connect_errno . ") " . $conexion->connect_error;
@@ -7,40 +6,27 @@ if ($conexion->connect_errno) {
 $xml = new DOMDocument('1.0', 'UTF-8');
 $xml->formatOutput = true;
 
-$et1=$xml->createElement('programas_estudio');
+$et1 = $xml->createElement('programas_estudio');
 $xml->appendChild($et1);
 
 $consulta = "SELECT * FROM sigi_programa_estudios";
 $resultado = $conexion->query($consulta);
-
-while($pe = mysqli_fetch_assoc($resultado)){
+while ($pe = mysqli_fetch_assoc($resultado)){
     echo $pe['nombre']."<br>";
-    $num_pe = $xml->createElement('pe_'.$pe['id']);
+    $num_pe = $xml->createElement("pe".$pe['id']);
     $codigo_pe = $xml->createElement('codigo', $pe['codigo']);
-    $num_pe ->appendChild($codigo_pe);
+    $num_pe->appendChild($codigo_pe);
     $tipo_pe = $xml->createElement('tipo', $pe['tipo']);
-    $num_pe ->appendChild($tipo_pe);
+    $num_pe->appendChild($tipo_pe);
     $nombre_pe = $xml->createElement('nombre', $pe['nombre']);
-    $num_pe ->appendChild($nombre_pe);
-    //consulta de planes de estudio
+    $num_pe->appendChild($nombre_pe);
+
+    // otro planes de estudio
+
     $et_plan = $xml->createElement('planes_estudio');
-    $consulta_plan = "SELECT * FROM sigi_planes_estudio WHERE id_programa_estudios=".$pe['id'];
-    $resultado_plan = $conexion->query($consulta_plan);
-    //while ($resultado_plan = mysqli_fetch_assoc($resultado_plan)) este es el original
-    while ($row_plan = mysqli_fetch_assoc($resultado_plan)){
-
-    }
-    $num_pe ->appendChild($et_plan);
-    $et1 ->appendChild($num_pe);
-}
-
-
-
-//planes de estudio
-$et_plan = $xml->createElement('planes_estudio');
     $xml->appendChild($et_plan);
 
-    $consulta_plan = "SELECT * FROM sigi_planes_estudio WHERE id_programa_estudios=".$pe['id'];
+    $consulta_plan = "SELECT * FROM sigi_planes_estudio WHERE id_programa_estudios".$pe['id'];
     $resultado_plan = $conexion->query($consulta_plan);
     while ($plan = mysqli_fetch_assoc($resultado_plan)){
         echo $plan['nombre']."<br>";
@@ -52,9 +38,11 @@ $et_plan = $xml->createElement('planes_estudio');
         $num_plan->appendChild($rolucion_plan);
         $fecha_plan = $xml->createElement('fecha_registro', $plan['fecha_registro']);
         $num_plan->appendChild($fecha_plan);
+        //otro modulos formativos
 
         $et_modulos = $xml->createElement('modulos_formativos');
         $xml->appendChild($et_modulos);
+        
         $consulta_modulo = "SELECT * FROM sigi_modulo_formativo " .
                             "WHERE id_plan_estudio=".$plan['id'];
         $resultado_modulo = $conexion->query($consulta_modulo);
@@ -72,20 +60,10 @@ $et_plan = $xml->createElement('planes_estudio');
     $et_plan ->appendChild($et_modulos);
     $num_pe->appendChild($et_plan);
     $et1->appendChild($num_pe);
-
-
-
-
-$archivo = "ies_db.xml";
-$xml->save($archivo);
-?>
-
-
+}
 
 
 
 $archivo = "ies_db.xml";
 $xml->save($archivo);
-
-
 ?>
