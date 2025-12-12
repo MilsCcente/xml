@@ -16,7 +16,7 @@ foreach ($xml as $i_pe => $pe) {
     echo 'Tipo: ' . $pe->tipo . "<br>";
     echo 'Nombre: ' . $pe->nombre . "<br>";
 
-    // Insertar en la tabla sigi_programa_estudios
+    // Insertar en la tabla sigi_programa_estudios INSERT INTO
     $stmt_pe = $conexion->prepare("INSERT INTO sigi_programa_estudios (codigo, tipo, nombre) VALUES (?, ?, ?)");
     $stmt_pe->bind_param("sss", $pe->codigo, $pe->tipo, $pe->nombre);
     $stmt_pe->execute();
@@ -72,6 +72,6 @@ foreach ($xml as $i_pe => $pe) {
     }
 }
 
-echo "Datos insertados correctamente.";
+echo "Los datos fueron insertados correctamente.";
 
 $conexion->close();

@@ -36,6 +36,8 @@ while ($pe = mysqli_fetch_assoc($resultado)) {
         $num_plan->appendChild($resolucion_plan);
         $fecha_registro_plan = $xml->createElement('fecha_registro', $plan['fecha_registro']);
         $num_plan->appendChild($fecha_registro_plan);
+        $perfil_egresado_plan = $xml->createElement('perfil_egresado', $plan['perfil_egresado']); //genera el perfil automatico
+        $num_plan->appendChild($perfil_egresado_plan);
 
 
         $et_modulos = $xml->createElement('modulos_formativos');
